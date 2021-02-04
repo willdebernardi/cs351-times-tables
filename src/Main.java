@@ -3,65 +3,63 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.text.DecimalFormat;
-
 public class Main extends Application {
-    private double multiple = 2;
-    private double incrementSize = 0.1;
-    Canvas canvas = new Canvas(300, 300);
+    private static double multiple = 2;
+    private static long frameRate = 200_000_000;
+    private static double incrementSize = 0.1;
+    Canvas canvas = new Canvas(800, 800);
     GraphicsContext gc = canvas.getGraphicsContext2D();
 
     @Override
     public void start(Stage primaryStage) {
-        AddCircles circles = new AddCircles();
-        AddButtons buttons = new AddButtons();
         AnchorPane root = new AnchorPane();
-        Scene scene = new Scene(root, 300, 300, Color.LIGHTGREY);
+        LineDraw drawer = new LineDraw();
+        AddButtons buttons = new AddButtons();
+        Scene scene = new Scene(root, 800, 800, Color.LIGHTGREY);
+        AddCircles circles = new AddCircles();
+        AddBoxes boxes = new AddBoxes();
         circles.outerCircle(root);
         circles.drawPoints(root);
-        int numberPoints = circles.getNumberPoints();
-
-        Slider slider = new Slider(2.0, 50.0, 2.0);
-        slider.setLayoutX(150);
-        slider.setLayoutY(275);
-        Label sizeLabel = new Label("Increment size: " + slider.getValue());
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            incrementSize = (double) newValue;
-            sizeLabel.setText("Increment size: " + new DecimalFormat("##.#").format(incrementSize));
-        });
-        sizeLabel.setLayoutY(275);
-        sizeLabel.setLayoutX(10);
-
 
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                // Currently throttled to 100 ms for testing purposes
-                if (now - lastUpdate >= 100_000_000) {
+                if (now - lastUpdate >= frameRate) {
                     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                    circles.drawer.drawLines(numberPoints, multiple, gc);
+                    drawer.drawLines(circles.getNumberPoints(), multiple, gc);
                     multiple += incrementSize;
                     lastUpdate = now;
                 }
-
             }
         };
-        timer.start();
 
         root.getChildren().add(canvas);
-        root.getChildren().add(slider);
-        root.getChildren().add(sizeLabel);
+        root.getChildren().add(boxes.addMathBox(circles, root));
+        root.getChildren().add(boxes.addColorBox(drawer));
+        root.getChildren().add(boxes.addFramerateBox());
+        root.getChildren().add(boxes.addSliderBox());
         buttons.placeButtons(root, timer);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public void setMultiple(double multiple) {
+        Main.multiple = multiple;
+    }
+
+    public void setFrameRate(long frameRate) {
+        Main.frameRate = frameRate;
+    }
+
+    public void setIncrementSize(double incrementSize) {
+        Main.incrementSize = incrementSize;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
