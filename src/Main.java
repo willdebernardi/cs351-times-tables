@@ -27,8 +27,6 @@ public class Main extends Application {
         circles.drawPoints(root);
 
 
-
-
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
