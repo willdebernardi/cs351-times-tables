@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+
 public class Main extends Application {
     private static double multiple = 2;
     private static long frameRate = 200_000_000;
@@ -25,6 +26,9 @@ public class Main extends Application {
         circles.outerCircle(root);
         circles.drawPoints(root);
 
+
+
+
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
@@ -38,11 +42,14 @@ public class Main extends Application {
             }
         };
 
+
+
         root.getChildren().add(canvas);
         root.getChildren().add(boxes.addMathBox(circles, root));
         root.getChildren().add(boxes.addColorBox(drawer));
         root.getChildren().add(boxes.addFramerateBox());
         root.getChildren().add(boxes.addSliderBox());
+        root.getChildren().add(boxes.addFavoritesBox(timer, canvas, gc, drawer, circles));
         buttons.placeButtons(root, timer);
         primaryStage.setScene(scene);
         primaryStage.show();

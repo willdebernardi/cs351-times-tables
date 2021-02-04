@@ -1,3 +1,6 @@
+import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -87,6 +90,54 @@ public class AddBoxes {
         sliderBox.setSpacing(5);
 
         return sliderBox;
+    }
+
+    public VBox addFavoritesBox(AnimationTimer timer, Canvas canvas, GraphicsContext gc, LineDraw drawer, AddCircles circles) {
+        VBox favoritesBox = new VBox();
+        favoritesBox.setLayoutY(350);
+        Label favoritesLabel = new Label("Favorites");
+        Button btn1 = new Button("1");
+        Button btn2 = new Button("2");
+        Button btn3 = new Button("3");
+        Button btn4 = new Button("4");
+        Button btn5 = new Button("5");
+        btn1.setOnAction(event -> {
+            double multiple = 2;
+            main.setMultiple(multiple);
+            timer.stop();
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.drawLines(circles.getNumberPoints(), multiple, gc);
+        });
+        btn2.setOnAction(event ->  {
+            double multiple = 34;
+            main.setMultiple(multiple);
+            timer.stop();
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.drawLines(circles.getNumberPoints(), multiple, gc);
+        });
+        btn3.setOnAction(event -> {
+            double multiple = 86;
+            main.setMultiple(multiple);
+            timer.stop();
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.drawLines(circles.getNumberPoints(), multiple, gc);
+        });
+        btn4.setOnAction(event -> {
+            double multiple = 76;
+            main.setMultiple(multiple);
+            timer.stop();
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.drawLines(circles.getNumberPoints(), multiple, gc);
+        });
+        btn5.setOnAction(event -> {
+            double multiple = 99;
+            main.setMultiple(multiple);
+            timer.stop();
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.drawLines(circles.getNumberPoints(), multiple, gc);
+        });
+        favoritesBox.getChildren().addAll(favoritesLabel,btn1,btn2,btn3,btn4,btn5);
+        return favoritesBox;
     }
 
 }
