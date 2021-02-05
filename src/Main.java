@@ -8,6 +8,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
+ * Will DeBernardi
+ * CS 351-002 Spring 2021
+ * February 4th, 2021
+ *
  * This is the primary class in which the visualization is actually created.
  * This class really only has one method - start(), which handles everything.
  * The main() method simply just launches everything.
